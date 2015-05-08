@@ -1,22 +1,19 @@
 <?php
 /**
- * 
- * EPS 301 Redirects.
- * 
- * Admin.redirects.php
- * 
- * Outputs the redirects table.
- * 
- * 
  *
+ * The Redirects Tab.
+ *
+ * The main admin area for the redirects tab.
  *
  * @package    EPS 301 Redirects
  * @author     Shawn Wernig ( shawn@eggplantstudios.ca )
- * @version    2.1.0
  */
 ?>
 
-<div id="eps-redirect-redirects-pane" class="eps-tab group">
+
+<div class="wrap">
+    <?php do_action('eps_redirects_admin_head'); ?>
+
     <table id="eps-redirect-entries" class="eps-table eps-table-striped">
         <tr>
             <th>Request URL</th>
@@ -24,13 +21,24 @@
             <th class="redirect-hits">Hits</th>
             <th class="redirect-actions">Actions</th>
         </tr>
-        
+
         <tr id="eps-redirect-add" style="display:none"><td colspan="4"><a href="#" id="eps-redirect-new"><span>+</span></a></td></tr>
 
-        <?php echo self::get_inline_edit_entry(); ?>
-        
         <?php
-        echo self::do_entries();
+        echo EPS_Redirects::get_inline_edit_entry();
+        echo EPS_Redirects::list_redirects();
         ?>
-    </table>    
+    </table>
+
+
+    <div class="right">
+        <?php do_action('eps_redirects_panels_right'); ?>
+    </div>
+    <div class="left">
+        <?php do_action('eps_redirects_panels_left'); ?>
+    </div>
 </div>
+    
+    
+    
+    
