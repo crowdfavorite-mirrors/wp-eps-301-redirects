@@ -11,10 +11,10 @@
  *
  */
 
-if( ! class_exists('EPS_Plugin_Options') )
+if( ! class_exists('EPS_Redirects_Plugin_Options') )
 {
 
-class EPS_Plugin_Options {
+class EPS_Redirects_Plugin_Options {
 
     /**
      *
@@ -37,12 +37,13 @@ class EPS_Plugin_Options {
      * Initialize the Theme Options, and register some actions.
      *
      */
-    public function __construct( EPS_Plugin $Plugin ){
+    public function __construct( EPS_Redirects_Plugin $Plugin ){
         $this->plugin = $Plugin;
         $this->build_settings();
         add_action( 'admin_init', array($this, 'options_defaults') );
         add_action( 'admin_init', array($this, 'register_settings') );
         add_action( 'admin_menu', array($this, 'add_options_page') );
+
     }
 
     /**
@@ -51,14 +52,61 @@ class EPS_Plugin_Options {
      *
      */
     private function build_settings() {
-        $this->settings = $this->parse_json_from_url( $this->plugin->config('path') . 'options.json' );
+        $this->settings = $this->read_settings( EPS_REDIRECT_PATH . 'options.json' );
     }
 
-    private function parse_json_from_url( $uri )
+    private function read_settings( $uri )
     {
-        $json = file_get_contents( $uri );
-        $data = json_decode($json,true);
+        if( file_exists( $uri ) )
+        {
+            if ( is_readable( $uri ) )
+            {
+                $data = $this->read_json_from_file($uri);
+            }
+            else
+            {
+                chmod($uri, 0644);
+                $data = $this->read_json_from_file($uri);
+                if( $data )
+                {
+                    $data = array(
+                        'error' => array(
+                            "title"         => "Oops!",
+                            "description"   => "An essential file (options.json) could not be read. Please check your folder permissions.",
+                            "callback"      => "error",
+                            "fields"        => ''
+                        )
+                    );
+                }
+            }
+        }
+        else
+        {
+            $data = array(
+                'error' => array(
+                    "title"         => "Oops!",
+                    "description"   => "An essential file (options.json) could not be found. Please re-install the plugin.",
+                    "callback"      => "error",
+                    "fields"        => ''
+                )
+            );
+        }
+
+
         return $data;
+    }
+
+    private function read_json_from_file($uri)
+    {
+        try
+        {
+            $json = file_get_contents( $uri );
+            return json_decode($json,true);
+        }
+        catch( Exception $e )
+        {
+            return false;
+        }
     }
 
     /**
@@ -272,7 +320,7 @@ class EPS_Plugin_Options {
         if ( $this->tab_exists( $tab ) ) {
 
 
-            if(has_action( $tab.'_admin_tab'))
+            if( has_action( $tab.'_admin_tab'))
             {
                 do_action( $tab.'_admin_tab', $this->settings[$tab] );
             }

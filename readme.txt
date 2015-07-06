@@ -10,7 +10,7 @@ Requires at least: 3.0.1
 
 Tested up to: 4.2.1
 
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 
 License: GPLv2 or later
 
@@ -116,6 +116,21 @@ By default, any URL with a query string is considered unique, and will redirect 
 
 == Changelog ==
 
+= 2.3.0 =
+Added sorting. Fixed a bug when upgrading from V1 to V2, and the infamous "Invalid Destination" url.
+
+= 2.2.7 =
+That silly bug with the database tables not being created has been squashed. Improved query performance.
+
+= 2.2.6 =
+Added support for custom plugin directories.
+
+= 2.2.4 =
+Support for older versions of PHP.
+
+= 2.2.3 =
+Fixed an issue where the redirect database tables were not being created, causing 'Invalid Destination URL' errors.
+
 = 2.2.0 =
 Minor bug fixes. Greatly improved import feature. Redirects include query strings. Export feature added. Http/Https agnostic. Pro version added with 404 management.
 
@@ -163,6 +178,19 @@ Overhauled the entire plugin. Redirects are stored in their own table. Gracefull
 * Release.
 
 == Upgrade Notice ==
+
+= 2.3.0 =
+Added sorting. Fixed a bug when upgrading from V1 to V2, and the infamous "Invalid Destination" url.
+
+
+= 2.2.7 =
+That silly bug with the database tables not being created has been squashed. Improved query performance.
+
+= 2.2.6 =
+Added support for custom plugin directories.
+
+= 2.2.4 =
+Support for older versions of PHP.
 
 = 2.2.0 =
 Minor bug fixes. Greatly improved import feature, added Export feature plus many other updates. A Pro Version is now available with 404 Management!
